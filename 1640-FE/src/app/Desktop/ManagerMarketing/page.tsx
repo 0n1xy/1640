@@ -21,7 +21,7 @@ import { PostTitle } from "../manager/FacultyPost";
 import CalendarTodayOutlinedIcon from "@mui/icons-material/CalendarTodayOutlined";
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
 import ManagerPost from "./MM2";
-
+import cookie from "js-cookie";
 interface apiFaculties {
   _id: string;
   facultyName: string;
@@ -38,6 +38,7 @@ interface apiContribution {
 }
 
 export default function ManagerPage() {
+  const facultyID = cookie.get("facultyID");
   const [search, setSearch] = useState("");
   const [isOpenPost, setIsOpenPost] = useState(false);
   const [currentFaculty, setCurrentFaculty] = useState(
@@ -108,7 +109,7 @@ export default function ManagerPage() {
                 <div key={item._id}>
                   {isOpenPost == true && currentPost === `${item._id}` && (
                     <ManagerPost
-                      id={item._id}
+                      contributionID={item._id}
                       contributionTitle={item.contributionTitle}
                       time={item.contributionStartDay}
                       closePage={setIsOpenPost}

@@ -14,21 +14,54 @@ import { styled } from "@mui/material";
 //icon
 import DescriptionOutlinedIcon from "@mui/icons-material/DescriptionOutlined";
 import ArrowCircleDownOutlinedIcon from "@mui/icons-material/ArrowCircleDownOutlined";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import UpdatePromptPage from "../Update/pages";
+
+interface apiFile {
+  _id: string;
+  imageURL: string[];
+  docURL: string;
+  createdAt: string;
+}
 
 export default function StViewPage(props: any) {
   const [closeAddNew, setCloseAddNew] = useState(false);
   const [openUpdate, setOpenUpdate] = useState(false);
+  const [files, setFile] = useState<apiFile>();
 
   const handleCloseViewPage = () => {
-    setCloseAddNew(props.closePage);
+    setCloseAddNew(props.closePage);    
+    window.location.href = "/Student/contribution";
   };
 
   const handleOpenUpdate = () => {
     setOpenUpdate(!openUpdate);
   };
 
+  const getFile = async () => {
+    const param = props.fileID;
+    const url = `http://localhost:7000/api/file/${param}`;
+    try {
+      const res = await fetch(url, {
+        method: "GET",
+      });
+      if (res.ok) {
+        const data = await res.json();
+        setFile(data);
+      } else {
+        alert("Fail to connect to server");
+      }
+    } catch (error) {
+      console.error("An error occurred:", error);
+      throw error;
+    }
+  };
+
+  useEffect(() => {
+    getFile();
+  },[]);
+
+  console.log(files)
   return (
     <PromptBigContainer className="absolute m-0 bg-white">
       {openUpdate == true && (
@@ -38,6 +71,9 @@ export default function StViewPage(props: any) {
           content={props.contributionTitle}
           time={props.contributionStartDay}
           description = {props.description}
+          submissionID = {props.submissionID}
+          docURL ={files?.docURL}
+          imageURL = {files?.imageURL}
         />
         )}
       {closeAddNew == false && (
@@ -56,20 +92,19 @@ export default function StViewPage(props: any) {
               <DisplayDataContainer>{props.description}</DisplayDataContainer>
               <AddStudentTitleStyle>Image</AddStudentTitleStyle>
               <InputImageContainer>
-                {/* {props.postImage?.map((image: any) => (
-                  <ViewStudentImage key={image.imageId} src={image.src} />
-                ))} */}
-                <ViewStudentImage src={`https://firebasestorage.googleapis.com/v0/b/project-8268186441646603153.appspot.com/o/images%2FIconFaculty.png%20%20%20%20%20%20%20Fri%20Apr%2026%202024%2005%3A45%3A48%20GMT%2B0700%20(Gi%E1%BB%9D%20%C4%90%C3%B4ng%20D%C6%B0%C6%A1ng)?alt=media&token=8ec4fa6f-8540-4856-ad3b-82ed6def0f16`}/>
+              {files?.imageURL.map((image, i) => (
+                <ViewStudentImage src={image} key={i}/>
+              ))}
               </InputImageContainer>
-              <AddStudentTitleStyle>Docs</AddStudentTitleStyle>
-              <InputImageContainer>
-                  <UploadFileContainer >
+              <AddStudentTitleStyle>Docs</AddStudentTitleStyle>     
+                  <InputImageContainer>
+                    <UploadFileContainer >
                     <DescriptionOutlinedIcon />
-                    {"Doc1.docx"}
+                    <a href={files?.docURL}>word.doc</a>
                     <ArrowCircleDownOutlinedIcon />
-                  </UploadFileContainer>
-              </InputImageContainer>
-              {/* <BtnSubmit onClick={handleOpenUpdate}>Update</BtnSubmit> */}
+                  </UploadFileContainer>              
+                  </InputImageContainer>
+              <BtnSubmit onClick={handleOpenUpdate}>Update</BtnSubmit>
             </div>
           </CardPromptContainer>
         </div>

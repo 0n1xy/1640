@@ -20,7 +20,7 @@ interface apiStatus {
 export default function ChangeStatus(props: any) {
   const [isClose, setIsClose] = useState(false);
   const [status, setStatus] = useState<apiStatus[]>();
-  const [handleStatus, setHandleStatus] = useState("In Review");
+  const [statusName, setStatusName] = useState("In Review");
   const [comment, setComment] = useState("");
 
   const getStatus = async () => {
@@ -38,17 +38,22 @@ export default function ChangeStatus(props: any) {
   const handleUpdateSubmit = async(e: any) => {
     if (comment != "" ) {
       e.preventDefault();
-      const blog = { handleStatus, comment};
-      console.log(blog);
+      console.log(status);
       const param = props.submissionID
       const url = `http://localhost:7000/api/submission/`
       const fetchURL = url.concat(param)
       try {
         const res = await fetch(fetchURL, {
         method: "PATCH",
+        headers: {
+          'Content-Type': 'application/json'
+      },
+        body: JSON.stringify({status: statusName})
       });
+      console.log(statusName)
+      console.log(fetchURL)
       setIsClose(props.closePage);
-      window.location.reload();
+      // window.location.reload();
       } catch (error) {
         
       }
@@ -58,8 +63,8 @@ export default function ChangeStatus(props: any) {
     }
   };
 
-  const handleChange = (e) => {
-      setHandleStatus(e.target.value)
+  const handleChange = (e: any) => {
+      setStatusName(e.target.value)
   }
 
   const handleClickClose = () => {
@@ -86,7 +91,7 @@ export default function ChangeStatus(props: any) {
               </button>
               <FormControl sx={{ m: 1, minWidth: 120 }}>
                 <InputLabel htmlFor="grouped-select">Status</InputLabel>
-                <Select onChange={handleChange} defaultValue="" id="grouped-select" label="Grouping">
+                <Select onChange={handleChange} value={statusName} id="grouped-select" label="Grouping">
                   {status?.map((item) => (
                     <MenuItem value={item.statusName} key={item._id}> {item.statusName}</MenuItem>
                   ))}

@@ -8,7 +8,7 @@ import {
 } from "../../Student/Prompt";
 import { PostTitle } from "../../manager/FacultyPost";
 import { SearchBar } from "../../manager/FacultyMenu";
-import { Divider } from "@mui/material";
+import { Divider, styled } from "@mui/material";
 import { useEffect, useState } from "react";
 import {
   BtnPromptTextStyle,
@@ -21,13 +21,14 @@ import { AddStudentTitleStyle, BackIcon } from "../../Student/AddNew";
 import { MobileCardTitle } from "@/app/Mobile/Manager/MM-2";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import DownloadIcon from '@mui/icons-material/SimCardDownload';
+import cookie from "js-cookie";
 
 interface apiSubmissions {
   _id: string;
   description: string;
   facultyID: string;
   createdAt:string;
-  sub
+  contributionID: string
 }
 
 interface apiFaculties {
@@ -36,10 +37,19 @@ interface apiFaculties {
   createdAt: Date;
 }
 
+interface apiFile {
+  _id: string;
+  imageURL: string[];
+  docURL: string;
+  createdAt: string;
+}
+
 export default function ManagerPost(props: any) {
+  const facultyID = cookie.get("facultyID");
   const [isClosePost, setIsClosePost] = useState(false);
   const [submissions, setSubmissions] = useState<apiSubmissions[]>();
   const [faculty, setFaculty] = useState<apiFaculties[]>();
+  const [files, setFile] = useState<apiFile>();
 
   const [currentSubmissions, setCurrentSubmissions] = useState("")
 
@@ -59,10 +69,6 @@ export default function ManagerPost(props: any) {
     }
   };
 
-  useEffect(() => {
-    getSubmissions();
-  }, []);
-
   const handleFile = async (e: React.MouseEvent<HTMLButtonElement>) => {
     const currentId = e.currentTarget.id;
     setCurrentSubmissions(currentId)
@@ -73,11 +79,15 @@ export default function ManagerPost(props: any) {
       const res = await fetch(fetchURL, {
       method: "GET",
     });
+    console.log(fetchURL)    
     } catch (error) {
       
     }
   }
-  
+
+  useEffect(() => {
+    getSubmissions();
+  }, []);
 
   return (
     <div>
@@ -95,10 +105,9 @@ export default function ManagerPost(props: any) {
             />
             <div className="overflow-y-scroll h-[700px] ">
             {submissions?.map(((item) => (
-                <div key={item._id} className="flex flex-row">
-                    {props.facultyID === `${item.facultyID}` && (
-                      <a href="">
-                      <MobileCardContainer id={item._id} className="w-[80%] flex flex-row gap-2 justify-around" onClick={handleFile}>
+                <div key={item._id} className="flex flex-row gap-2 justify-center w-full">
+                    {props.contributionID === `${item.contributionID}` && (      
+                      <CardContainer id={item._id} onClick={handleFile} className="w-[80%]">
                       <AddStudentTitleStyle>
                         {item.description}
                       </AddStudentTitleStyle>
@@ -106,14 +115,13 @@ export default function ManagerPost(props: any) {
                         <PostNumberContainer >
                           <InformationStyle>Admin</InformationStyle>
                         </PostNumberContainer>
-                        <div className="flex flex-row">
+                        <div className="flex flex-row self-center gap-1">
                           <AccessTimeIcon />
                           <InformationStyle className="self-center">{item.createdAt}</InformationStyle>
                         </div>
                         <DownloadIcon sx={{marginLeft:"auto"}}/>
                       </div>
-                    </MobileCardContainer>
-                    </a>
+                    </CardContainer>
                     )}
                 </div>
             )))}
@@ -124,3 +132,16 @@ export default function ManagerPost(props: any) {
     </div>
   );
 }
+
+ const CardContainer = styled("button")`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  border-radius: 10px;
+  border: 1px solid #bcbcbc;
+  margin: 10px 20px;
+  padding: 10px;
+  &:hover {
+    border: 1px solid #0085ff;
+  }
+`;

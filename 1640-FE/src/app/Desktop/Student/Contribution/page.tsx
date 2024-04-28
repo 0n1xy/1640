@@ -21,6 +21,7 @@ interface apiSubmissions {
   createdAt: string;
   userID: string;
   statusID: string;
+  fileID:string;
 }
 
 export default function Contribution() {
@@ -78,6 +79,8 @@ export default function Contribution() {
                     contributionTitle={contribution.contributionTitle}
                     contributionStartDay = {contribution.contributionStartDay}
                     description = {submission.description}
+                    fileID = {submission.fileID}
+                    submissionID = {submission._id}
                   />
                 )}
               </div>
@@ -89,22 +92,27 @@ export default function Contribution() {
         <ContentStyle>Descriptions</ContentStyle>
       </div>
       <Divider variant="middle" color="#BCBCBC" />
+      <div className="overflow-y-scroll h-[600px]">
       {submissions?.map((submission) => (
         <div key={submission._id}>
-          {userID === `${submission.userID}` &&  (
+          {
+          userID === `${submission.userID}` &&  
+          (
             <DescriptionsBarContainer
               key={submission._id}
               id={submission._id}
               onClick={handleOpenViewPage}
+              disabled={submission.statusID === "62755508-4288-4e5f-848d-eb69995c8b35"}
             >
               <ContentStyle>{submission.description}</ContentStyle>
-              
-              {submissions.length > 0 && <Icon src="/Icon/FrameGreen.png" />}
-              {submissions.length <= 0 && <Icon src="/Icon/Frame.png" />}
+              {`${submission.statusID}` === "1741a003-095d-4743-994e-fc975e75a431" && <Icon src="/Icon/FrameInReview.png"/>}
+              {`${submission.statusID}`=== "2c142f13-ee10-4616-8c13-5297109fc0fc" && <Icon src="/Icon/FrameGreen.png" />}
+              {`${submission.statusID}` === "62755508-4288-4e5f-848d-eb69995c8b35" && <Icon src="/Icon/FrameDeny.png" />}
             </DescriptionsBarContainer>
           )}
         </div>
       ))}
+      </div>
     </PageContainer>
   );
 }

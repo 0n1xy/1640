@@ -58,7 +58,7 @@ export default function HomePage() {
                   contributionID={contribution._id}
                   contributionTitle={contribution.contributionTitle}
                   contributionStatus={contribution.contributionStatus}
-                  contributionStartDay = {contribution.contributionStartDay}
+                  contributionStartDay={contribution.contributionStartDay}
                 />
               )}
           </div>

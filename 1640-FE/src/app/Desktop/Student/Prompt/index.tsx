@@ -9,7 +9,6 @@ import {
   InformationStyle,
   MobileCardContainer,
 } from "@/app/Mobile/Manager/MM-1";
-import { promptData } from "@/app/Mobile/MC/page";
 import cookie from "js-cookie";
 import CalendarTodayOutlinedIcon from "@mui/icons-material/CalendarTodayOutlined";
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
@@ -95,7 +94,7 @@ export default function StudentPrompt() {
                   submissionID={contribution._id}
                   closePage={setOpenAddNew}
                   promptTitle={contribution.contributionTitle}
-                  promptRole={""}
+                  promptRole={"User"}
                   promptTime={contribution.contributionStartDay}
                   postNumber={""}
                   promptContent={contribution.contributionTitle}
@@ -105,7 +104,7 @@ export default function StudentPrompt() {
         ))}
       <MenuPromptContainer>
         <PromptPostTitle />
-        <SearchBar event={handleSearch} content="Search find Faculty" />
+        <SearchBar event={handleSearch} content="Search find contribution" />
         <Divider variant="middle" color="#BCBCBC" />
       </MenuPromptContainer>
       <CardPromptContainer className="overflow-y-scroll h-[700px]">

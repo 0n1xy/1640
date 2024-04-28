@@ -31,14 +31,13 @@ interface apiFile {
   _id: string;
   imageURL: string[];
   docURL: string;
+  createdAt: string;
 }
 
 export default function MC1Page(props: any) {
   const [isOpen, setIsOpen] = useState(false);
   const [isClosePost, setIsClosePost] = useState(false);
-  const [files, setFile] = useState<apiFile[]>();
-
-  const [imageURL, setImageURL] = useState();
+  const [files, setFile] = useState<apiFile>();
 
   const handleClickOpen = () => {
     setIsOpen(!isOpen);
@@ -50,23 +49,22 @@ export default function MC1Page(props: any) {
   };
 
   const getFile = async () => {
+    const param = props.fileID;
+    const url = `http://localhost:7000/api/file/${param}`;
+  
     try {
-      const param = props.fileID;
-      const url = "http://localhost:7000/api/file/";
-      const fetchURL = url.concat(param);
-
-      const res = await fetch(fetchURL, {
+      const res = await fetch(url, {
         method: "GET",
       });
-
-      console.log(fetchURL);
-
-      const data = await res.json();
-      if (data.length > 0) {
+  
+      if (res.ok) {
+        const data = await res.json();
         setFile(data);
+      } else {
+        alert("Fail to connect to server");
       }
     } catch (error) {
-      alert("Fail to connect to server");
+      console.error("An error occurred:", error);
     }
   };
 
@@ -76,7 +74,7 @@ export default function MC1Page(props: any) {
 
   useEffect(() => {
     getFile();
-  }, []);
+  },);
 
   return (
     <div>
@@ -103,23 +101,16 @@ export default function MC1Page(props: any) {
               <AddStudentTitleStyle>Description</AddStudentTitleStyle>
               <DisplayDataContainer>{props.postContent}</DisplayDataContainer>
               <AddStudentTitleStyle>Image</AddStudentTitleStyle>
-              {/* <ViewStudentImage src={props.postImg.postImg} /> */}
               <InputImageContainer className="flex flex-row">
-                {/* {files?.map((file) =>
-                  file.imageURL.map((url, i) => (
-                    <div key={i}>
-                      <div>{url}</div>
-                    </div>
-                  ))
-                )} */}
-                <ViewStudentImage src={`https://firebasestorage.googleapis.com/v0/b/project-8268186441646603153.appspot.com/o/images%2FIconFaculty.png%20%20%20%20%20%20%20Fri%20Apr%2026%202024%2005%3A45%3A48%20GMT%2B0700%20(Gi%E1%BB%9D%20%C4%90%C3%B4ng%20D%C6%B0%C6%A1ng)?alt=media&token=8ec4fa6f-8540-4856-ad3b-82ed6def0f16`} />
-                {files?.forEach((file, i) => callFile(file))}
+              {files?.imageURL.map((image, i) => (
+                <ViewStudentImage src={image} key={i}/>
+              ))}
               </InputImageContainer>
               <AddStudentTitleStyle>Docs</AddStudentTitleStyle>
               <InputImageContainer className="flex flex-row">
                   <UploadFileContainer>
                     <DescriptionOutlinedIcon />
-                    {"Doc1.docx"}
+                    <a href={files?.docURL}>word.doc</a>
                     <ArrowCircleDownOutlinedIcon />
                   </UploadFileContainer>
               </InputImageContainer>

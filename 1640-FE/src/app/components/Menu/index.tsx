@@ -9,7 +9,7 @@ import { useState } from 'react';
       icon: "/Icon/HomeIcon.png"},
       {role:"",
       name:"Faculties",
-      href:"",
+      href:"/manager",
       icon: "/Icon/IconFaculty.png"},
       {role:"",
       name:"Prompts",

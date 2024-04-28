@@ -4,14 +4,14 @@ import { Divider, styled } from "@mui/material";
 import { StudentCardTitle } from "@/app/Desktop/Student/AddNew";
 import { useEffect, useState } from "react";
 import { PostCard } from "@/app/Desktop/MarketingCoordinator/page";
+import Navbar from "@/app/components/DestopNav";
 
 interface submissionsApi {
   _id: string;
   description: string;
   createdAt: string;
-  contributionID: string
+  contributionID: string;
 }
-
 
 export default function SecondHomePage(props: any) {
   const [closePage, setClosePage] = useState(false);
@@ -39,9 +39,10 @@ export default function SecondHomePage(props: any) {
   }, []);
 
   return (
-    <div className="h-full bg-white">
+    <div className=" bg-white">
       {closePage == false && (
         <BigCOntainer>
+          <Navbar />
           <StudentCardTitle
             event={handleClosePage}
             title={props.contributionTitle}
@@ -50,24 +51,26 @@ export default function SecondHomePage(props: any) {
             role={"User"}
           />
           <Divider variant="middle" color="#BCBCBC" />
-          <div className="grid grid-cols-2 gap-4">
-            {submissions?.map((submission) => (
-              <div key={submission._id}>
-                {
-                props.contributionID === `${submission.contributionID}` &&
-                // props.contributionStatus === "Accept" && 
-                (
-                  <PostCard
-                    title={submission.description}
-                    content={submission.description}
-                    time={submission.createdAt}
-                    role={"User"}
-                    event={undefined}
-                    postId={undefined}
-                  />
-                )}
-              </div>
-            ))}
+          <div className="overflow-y-scroll max-h-[70%]">
+            <div className="flex flex-wrap justify-center">
+              {submissions?.map((submission) => (
+                <div key={submission._id}>
+                  {props.contributionID === `${submission.contributionID}` && (
+                    <div className="max-w-[700px]">
+                       <PostCard
+                      title={submission.description}
+                      content={submission.description}
+                      time={submission.createdAt}
+                      role={"User"}
+                      event={undefined}
+                      postId={undefined}
+                    />
+                    </div>
+
+                  )}
+                </div>
+              ))}
+            </div>
           </div>
         </BigCOntainer>
       )}
@@ -76,9 +79,12 @@ export default function SecondHomePage(props: any) {
 }
 
 const BigCOntainer = styled("div")`
-  position: absolute;
   z-index: 1;
   background: white;
   width: 100%;
   height: 100%;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 `;

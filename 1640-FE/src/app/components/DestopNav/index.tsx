@@ -111,8 +111,8 @@ const Navbar = () => {
         <a href="/Student">Student</a>
         <a href="/manager">Manager</a>
         <a href="/manager/mc">MC</a>
-        <a href="/">Log out</a>
         <button onClick={openAddPromptTable}>Admin</button>
+        <a href="/">Log out</a>
         </div>
         {/* <button>
           <Notification size="24" color="gray" />

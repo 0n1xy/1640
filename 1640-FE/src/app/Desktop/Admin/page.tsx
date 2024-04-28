@@ -79,7 +79,7 @@ export default function AdminPage(props: any) {
                 <TableTitle>Create a template</TableTitle>
                 <CloseIcon />
               </button>
-              <div className="overflow-y-scroll max-h-[450px]     text-align: center;">
+              <div className="max-h-[450px] text-align: center">
                 <PromptInput
                   title="Contribution Title"
                   isMultiline={false}
@@ -88,7 +88,7 @@ export default function AdminPage(props: any) {
                   defaultValue={""}
                   type="text"
                 />
-                <FormControl sx={{ m: 1, minWidth: "90%" }}>
+                <FormControl sx={{ marginLeft:"20px", minWidth: "90%" }}>
                   <InputLabel htmlFor="grouped-select">Status</InputLabel>
                   <Select onChange={handleSelect} defaultValue="" id="grouped-select" label="Grouping">
                     <MenuItem value="Open">Open</MenuItem>

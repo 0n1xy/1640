@@ -49,23 +49,13 @@ export default function AddNew(props: any) {
   const [docs, setDocs] = useState<File | null>(null);
 
   const handleSubmit = async (e: any) => {
-    if (description != "") {
-      e.preventDefault();
-      // const blog = {
-      //   contributionTitle,
-      //   docs,
-      //   images,
-      //   faculty,
-      //   statusID,
-      //   userID,
-      //   description,
-      // };
-      // console.log(blog);
+    if (description != "" && docs != null && selectedCheckBox == true) {
+      // e.preventDefault()
       const url = `http://localhost:7000/api/submission`;
 
       const formData = new FormData();
       images.forEach((image) => formData.append("images", image));
-      
+
       if (document) {
         formData.append("docs", docs);
       }
@@ -76,21 +66,14 @@ export default function AddNew(props: any) {
       formData.append("facultyID", faculty);
       formData.append("userID", userID);
       try {
-        const res = axios.post(`http://localhost:7000/api/submission`, formData, {
-          headers: { "Content-Type": "multipart/form-data" },
-        });
+        const res = axios.post(
+          `http://localhost:7000/api/submission`,
+          formData,
+          {
+            headers: { "Content-Type": "multipart/form-data" },
+          }
+        );
       } catch (error) {}
-
-      const fetchURL = url;
-      // try {
-      //   const res = await fetch(fetchURL, {
-      //     method: "POST",
-      //     headers: {
-      //       "Content-Type": "multipart/form-data",
-      //     },
-      //     data:
-      //   });
-      // } catch (error) {}
     } else {
       e.preventDefault();
       alert("Error fill all info please");
@@ -109,7 +92,6 @@ export default function AddNew(props: any) {
     const files = e.target.files;
     if (files.length === 0) return;
     setImage(Array.from(e.target.files));
-    
   }
 
   const onFileSelect = (e: any) => {
@@ -123,12 +105,11 @@ export default function AddNew(props: any) {
   }
 
   function submitFile() {
-    if (selectedCheckBox == true) {
-      if (images.length == 0 && files.length == 0) {
+    if (selectedCheckBox ) {
+      if (images.length == 0 && docs == null) {
         alert("Error!! You do not add images and files");
-      }
-      else {
-        setCloseAddNew(props.closePage)
+      } else {
+        setCloseAddNew(props.closePage);
       }
     } else {
       alert("Please!! Agree to the Term and Conditions upon submission");
@@ -139,8 +120,6 @@ export default function AddNew(props: any) {
     setSelectedCheckBox(e.target.checked);
     console.log(selectedCheckBox);
   }
-
-
 
   return (
     <PromptBigContainer className="absolute bg-white m-0">
@@ -169,7 +148,7 @@ export default function AddNew(props: any) {
               <div className="flex flex-col">
                 <StudentCardTitleContainer>
                   <AddStudentTitleStyle>Images</AddStudentTitleStyle>
-                  <InputLabel htmlFor="upImage" className="mb-2" >
+                  <InputLabel htmlFor="upImage" className="mb-2">
                     <Button
                       variant="outlined"
                       component="span"
@@ -185,22 +164,26 @@ export default function AddNew(props: any) {
                     onChange={onImageSelect}
                     ref={fileInputRef}
                     name="images"
+                    inputProps={{
+                      accept: "image/png",
+                    }}
                   />
                   <InputImageContainer className="flex flex-row gap-5">
                     {images.map((images, i) => (
-                      <div key={i} className="relative">
+                      <UploadFileContainer key={i}>
                         <BtnClose onClick={() => deleteFiles(i)}>
                           <CloseIcon />
                         </BtnClose>
-                        <CardImg src={images.url} alt={images.name} />
-                      </div>
+                        {/* <CardImg src={images.url} alt={images.name} /> */}
+                        {images.name}
+                        <ArrowCircleDownOutlinedIcon className="" />
+                      </UploadFileContainer>
                     ))}
                   </InputImageContainer>
                 </StudentCardTitleContainer>
                 <StudentCardTitleContainer>
                   <AddStudentTitleStyle>Docs</AddStudentTitleStyle>
-                  <input type="file" name="docs" onChange={onFileSelect} />
-                  {/* <InputLabel htmlFor="upFile" className="mb-2">
+                  <InputLabel htmlFor="upFile" className="mb-2">
                     <Button
                       variant="outlined"
                       component="span"
@@ -211,21 +194,21 @@ export default function AddNew(props: any) {
                   </InputLabel>
                   <TextField
                     type="file"
-                    inputProps={{ accept: "application/docxapplication/vnd.openxmlformats-officedocument.wordprocessingml.document" }}
+                    inputProps={{
+                      accept: ".doc, .docx",
+                    }}
                     sx={{ display: "none" }}
                     id="upFile"
                     onChange={onFileSelect}
                     ref={fileInputRef}
                   />
                   <InputImageContainer className="flex flex-row gap-5">
-                    {docs.map((file, i) => (
-                      <UploadFileContainer key={i}>
-                        <DescriptionOutlinedIcon />
-                        {file.name}
-                        <ArrowCircleDownOutlinedIcon className="" />
-                      </UploadFileContainer>
-                    ))}
-                  </InputImageContainer> */}
+                    <UploadFileContainer>
+                      <DescriptionOutlinedIcon />
+                      {docs?.name}
+                      <ArrowCircleDownOutlinedIcon className="" />
+                    </UploadFileContainer>
+                  </InputImageContainer>
                 </StudentCardTitleContainer>
                 <CheckBoxContainer>
                   <CheckBox type="checkbox" onChange={handleCheckBox} />
@@ -236,7 +219,7 @@ export default function AddNew(props: any) {
                     upon submission.
                   </label>
                 </CheckBoxContainer>
-                <BtnSubmit onClick={submitFile}>Submit</BtnSubmit>
+                <BtnSubmit>Submit</BtnSubmit>
               </div>
             </form>
           </CardPromptContainer>
@@ -300,7 +283,7 @@ export const StudentCardTitle = ({
 };
 
 export const StudentCardTitleContainer = styled("a")`
-  margin: 30px;
+  margin: 10px 20px;
 `;
 
 const CardContentContainer = styled("div")`
@@ -312,7 +295,6 @@ const CardContentContainer = styled("div")`
 export const BackIcon = styled(ArrowBackIcon)``;
 
 export const BtnClose = styled(IconButton)`
-  position: absolute;
   color: red;
 `;
 

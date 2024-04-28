@@ -114,7 +114,7 @@ export default function MCPage() {
       <MenuPromptContainer>
         <SearchBar event={handleSearch} content="Search find Prompt" />
         <Divider variant="middle" color="#BCBCBC" />
-        <div className="overflow-y-scroll">
+        <div className="overflow-y-scroll h-[90%]">
           {contributions &&
             contributions.length > 0 &&
             contributions
@@ -131,17 +131,14 @@ export default function MCPage() {
                       {item.contributionTitle}
                     </BtnPromptTextStyle>
                     <PostNumberContainer>
-                      <BtnPromptTextStyle sx={{ minWidth: "50px" }}>
-                        
-                      </BtnPromptTextStyle>
+                      <BtnPromptTextStyle
+                        sx={{ minWidth: "50px" }}
+                      ></BtnPromptTextStyle>
                     </PostNumberContainer>
                   </ButtonPrompt>
                 </ButtonPromptContainer>
               ))}
         </div>
-        <BtnCratePrompt onClick={openAddPromptTable}>
-          Create New Prompts
-        </BtnCratePrompt>
       </MenuPromptContainer>
       <CardPromptContainer>
         {contributions?.map((item) => (
@@ -157,7 +154,7 @@ export default function MCPage() {
             )}
           </div>
         ))}
-        <div className="overflow-y-scroll h-[600px]">
+        <div className="overflow-y-scroll h-[700px]">
           {submissions?.map((submission) => (
             <React.Fragment key={submission._id}>
               {currentPrompt === `${submission.contributionID}` && (
@@ -315,7 +312,7 @@ export const StudentCardTitle = ({
         </div>
         <PostNumberContainer className="text-center">
           <BtnPromptTextStyle sx={{ minWidth: "100px", color: "white" }}>
-            {postNumber} 
+            {postNumber}
           </BtnPromptTextStyle>
         </PostNumberContainer>
       </StudentCardTitleContainer>
