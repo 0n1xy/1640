@@ -25,9 +25,7 @@ export const displayStatus = async(req: Request, res: Response) => {
               message: "Can't find any status",
             });
           } else {
-            return res.send({
-              data: statusID,
-            });
+            return res.status(200).json(statusID)
           }
     } catch (error: any) {
         return res.status(500).json({ message: error.message });
