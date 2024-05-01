@@ -117,11 +117,6 @@ export const MobileCardTitle = ({
             </div>
           </CardInformationContainer>
         </div>
-        <PostNumberContainer className="text-center">
-          <BtnPromptTextStyle sx={{ minWidth: "100px", color: "white" }}>
-            {postNumber} 
-          </BtnPromptTextStyle>
-        </PostNumberContainer>
       </StudentCardTitleContainer>
       <Divider variant="middle" color="#BCBCBC" />
     </div>

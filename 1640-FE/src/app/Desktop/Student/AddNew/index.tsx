@@ -148,7 +148,7 @@ export default function AddNew(props: any) {
               <div className="flex flex-col">
                 <StudentCardTitleContainer>
                   <AddStudentTitleStyle>Images</AddStudentTitleStyle>
-                  <InputLabel htmlFor="upImage" className="mb-2">
+                  {images.length == 0 && <InputLabel htmlFor="upImage" className="mb-2">
                     <Button
                       variant="outlined"
                       component="span"
@@ -156,7 +156,7 @@ export default function AddNew(props: any) {
                     >
                       <TextInBtn>Choose a file</TextInBtn>
                     </Button>
-                  </InputLabel>
+                  </InputLabel>}
                   <TextField
                     type="file"
                     sx={{ display: "none" }}
@@ -183,7 +183,7 @@ export default function AddNew(props: any) {
                 </StudentCardTitleContainer>
                 <StudentCardTitleContainer>
                   <AddStudentTitleStyle>Docs</AddStudentTitleStyle>
-                  <InputLabel htmlFor="upFile" className="mb-2">
+                {docs == null && <InputLabel htmlFor="upFile" className="mb-2">
                     <Button
                       variant="outlined"
                       component="span"
@@ -191,7 +191,7 @@ export default function AddNew(props: any) {
                     >
                       <TextInBtn>Choose a file</TextInBtn>
                     </Button>
-                  </InputLabel>
+                  </InputLabel>}
                   <TextField
                     type="file"
                     inputProps={{
@@ -202,13 +202,13 @@ export default function AddNew(props: any) {
                     onChange={onFileSelect}
                     ref={fileInputRef}
                   />
-                  <InputImageContainer className="flex flex-row gap-5">
+                  {docs != null && <InputImageContainer className="flex flex-row gap-5">
                     <UploadFileContainer>
                       <DescriptionOutlinedIcon />
                       {docs?.name}
                       <ArrowCircleDownOutlinedIcon className="" />
                     </UploadFileContainer>
-                  </InputImageContainer>
+                  </InputImageContainer>}
                 </StudentCardTitleContainer>
                 <CheckBoxContainer>
                   <CheckBox type="checkbox" onChange={handleCheckBox} />

@@ -92,8 +92,11 @@ export default function ChangeStatus(props: any) {
               <FormControl sx={{ m: 1, minWidth: 120 }}>
                 <InputLabel htmlFor="grouped-select">Status</InputLabel>
                 <Select onChange={handleChange} value={statusName} id="grouped-select" label="Grouping">
-                  {status?.map((item) => (
+                  {/* {status?.map((item) => (
                     <MenuItem value={item.statusName} key={item._id}> {item.statusName}</MenuItem>
+                  ))} */}
+                  {status?.map((item) => (
+                    <MenuItem key={item._id} value={item.statusName}>{item.statusName}</MenuItem>
                   ))}
                 </Select>
               </FormControl>

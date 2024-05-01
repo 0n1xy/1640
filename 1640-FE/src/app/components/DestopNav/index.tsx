@@ -6,6 +6,7 @@ import React, { useState } from "react";
 import styled from "@emotion/styled";
 import { SearchNormal1, Notification } from "iconsax-react";
 import AdminPage from "@/app/Desktop/Admin/page";
+import cookie from "js-cookie";
 
 const NavbarContainer = styled.div`
   display: flex;
@@ -92,31 +93,32 @@ const Navbar = () => {
     setIsOpen(!isOpen);
   };
 
+  const logOut = () => {
+    const cookiesToBeDeleted = [
+      "userID",
+      "facultyID",
+      "role",
+      "access_token",
+      "refresh_token",
+    ];
+    cookiesToBeDeleted.forEach((cookieName) => {
+      cookie.remove(cookieName);
+    });
+  };
+
   return (
     <NavbarContainer className="relative">
       <Logo onClick={(event) => (window.location.href = "/home")} />
       <IconsContainer>
-        {/* <SearchContainer isFocused={isFocused}>
-          <SearchIconContainer onClick={toggleSearch}>
-            <SearchNormal1 size="24" color="gray" />
-          </SearchIconContainer>
-          <SearchInput
-            isFocused={isFocused}
-            placeholder="Search find contribution"
-            onFocus={() => setIsFocused(true)}
-            onBlur={() => setIsFocused(false)}
-          />
-        </SearchContainer> */}
         <div className="flex flex-row gap-5 m-4">
-        <a href="/Student">Student</a>
-        <a href="/manager">Manager</a>
-        <a href="/manager/mc">MC</a>
-        <button onClick={openAddPromptTable}>Admin</button>
-        <a href="/">Log out</a>
+          <a href="/Student">Student</a>
+          <a href="/manager">Manager</a>
+          <a href="/manager/mc">MC</a>
+          <button onClick={openAddPromptTable}>Admin</button>
+          <a href="/" onClick={logOut}>
+            Log out
+          </a>
         </div>
-        {/* <button>
-          <Notification size="24" color="gray" />
-        </button> */}
         {isOpen == true && <AdminPage />}
         <button>
           <Avatar />

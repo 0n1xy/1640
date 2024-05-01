@@ -159,7 +159,7 @@ export default function UpdatePromptPage(props: any) {
               <div className="flex flex-col">
                 <StudentCardTitleContainer>
                   <AddStudentTitleStyle>Images</AddStudentTitleStyle>
-                  <InputLabel htmlFor="upImage" className="mb-2">
+                  {images.length == 0 && <InputLabel htmlFor="upImage" className="mb-2">
                     <Button
                       variant="outlined"
                       component="span"
@@ -167,7 +167,7 @@ export default function UpdatePromptPage(props: any) {
                     >
                       <TextInBtn>Choose a file</TextInBtn>
                     </Button>
-                  </InputLabel>
+                  </InputLabel>}
                   <TextField
                     type="file"
                     sx={{ display: "none" }}
@@ -195,7 +195,7 @@ export default function UpdatePromptPage(props: any) {
                 </StudentCardTitleContainer>
                 <StudentCardTitleContainer>
                   <AddStudentTitleStyle>Docs</AddStudentTitleStyle>
-                  <InputLabel htmlFor="upFile" className="mb-2">
+                  {docs == null && <InputLabel htmlFor="upFile" className="mb-2">
                     <Button
                       variant="outlined"
                       component="span"
@@ -203,7 +203,7 @@ export default function UpdatePromptPage(props: any) {
                     >
                       <TextInBtn>Choose a file</TextInBtn>
                     </Button>
-                  </InputLabel>
+                  </InputLabel>}
                   <TextField
                     type="file"
                     inputProps={{

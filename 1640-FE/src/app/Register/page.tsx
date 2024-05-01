@@ -1,46 +1,48 @@
 "use client";
-import { ButtonGroup, styled } from "@mui/material";
+import { ButtonGroup, MenuItem, Select, styled } from "@mui/material";
 
 import GoogleIcon from "@mui/icons-material/Google";
 import FacebookOutlinedIcon from "@mui/icons-material/FacebookOutlined";
 import AppleIcon from "@mui/icons-material/Apple";
 
 import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
-import { signIn, useSession } from "next-auth/react";
 import { axiosPrivate, axiosPublic } from "../lib/axios";
 import cookie from "js-cookie";
+import { ForgotPassword } from "../Login/page";
 
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const router = useRouter();
+  const [username, setUsername] = useState("");
+  const [roleName, setRoleName] = useState("Admin");
 
-  const handleSubmit = async (e: any) => {
+  const handleSubmit = async (e : any) => {
     e.preventDefault();
-    try {
-      const response = await axiosPublic.post(
-        "/auth/login",
-        JSON.stringify({
-          email: email,
-          password: password,
-        })
-      );
-
-      cookie.set("access_token", response?.data.access_token, {
-        expires: 100000,
-      });
-      cookie.set("refresh_token", response?.data.refresh_token, {
-        expires: 300000,
-      });
-      cookie.set("role", response?.data.role, { expires: 100000 });
-      cookie.set("userID", response?.data.userID, { expires: 100000 });
-      cookie.set("facultyID", response?.data.facultyID, { expires: 100000 });
-      router.push("/home");
-    } catch (error) {
-      alert("Fail to login");
+    if (email != "") {
+      e.preventDefault();
+      try {
+        const response = await axiosPublic.post(
+          "/auth/register",
+          JSON.stringify({
+            email: email,
+            password: password,
+            roleName: roleName,       
+            username: username,
+          })
+        );
+      window.location.href = "/";
+      } catch (error) {
+        alert("Fail to connect server")
+      }
+    } else {
+      e.preventDefault();
+      alert("Error fill all info please");
     }
-  };
+  }
+
+  const handleChange = (e: any) => {
+    setRoleName(e.target.value)
+}
 
   return (
     <BigContainer className="bg-auto bg-no-repeat bg-center bg-cover">
@@ -51,7 +53,7 @@ export default function Login() {
             Welcome to
             <span> Greenwich Magazine</span>
           </WelcomeTxtStyle>
-          <TitleStyle>Sign In</TitleStyle>
+          <TitleStyle>Register</TitleStyle>
           <div className="mt-[20px]">
             <ButtonGroup className="gap-5 flex justify-between">
               <SocialButton>
@@ -66,6 +68,14 @@ export default function Login() {
             </ButtonGroup>
           </div>
           <div className="mt-[20px] flex flex-col gap-[20px]">
+            <ContentStyle>Enter Username</ContentStyle>
+            <LoginInput
+              type="text"
+              id="username"
+              placeholder="Username or email address"
+              name="username"
+              onChange={(e) => setUsername(e.target.value)}
+            />
             <ContentStyle>Enter email address</ContentStyle>
             <LoginInput
               type="text"
@@ -82,10 +92,27 @@ export default function Login() {
               name="password"
               onChange={(e) => setPassword(e.target.value)}
             />
+            <ContentStyle>Role</ContentStyle>
+            <Select
+              value={roleName}
+              onChange={handleChange}
+              displayEmpty
+              inputProps={{ "aria-label": "Without label" }}
+              sx={{ background: "white", width: "100%" }}
+            >
+              <MenuItem value="">
+                <em>None</em>
+              </MenuItem>
+              <MenuItem value={"Admin"}>Admin</MenuItem>
+              <MenuItem value={"Student"}>Student</MenuItem>
+            </Select>
           </div>
-          <ForgotPassword href="/Register"> <span>Do you have an account? </span>Register now</ForgotPassword>
+          <ForgotPassword href="/">
+            {" "}
+            <span>Do you have an account?</span> Login now
+          </ForgotPassword>
           <SignUpBtn>
-            <span>Sign In</span>
+            <span>Register</span>
           </SignUpBtn>
         </div>
       </FormContainer>
@@ -188,19 +215,6 @@ const SignUpBtn = styled("button")`
   }
 `;
 
-export const ForgotPassword = styled("a")`
-  font-size: 18px;
-  font-weight: 400;
-  color: #4285F4;
-  align-self: end;
-  margin: 20px 0px;
-  & span{
-    color: black;
-    font-size: 18px;
-    font-weight: 400;
-  }
-  }
-`;
 const Logo = styled("img")`
   width: 220px;
   height: 50px;

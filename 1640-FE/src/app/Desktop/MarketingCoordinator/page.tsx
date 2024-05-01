@@ -9,7 +9,7 @@ import {
   CardPromptContainer,
   MenuPromptContainer,
 } from "../Student/Prompt";
-import { SearchBar } from "../manager/FacultyMenu";
+import { Card, SearchBar } from "../manager/FacultyMenu";
 import { useState } from "react";
 
 import {
@@ -43,23 +43,35 @@ interface apiSubmissions {
   contributionID: string;
   createdAt: string;
   fileID: string;
+  facultyID: string;
+}
+
+interface apiFaculties {
+  _id: string;
+  facultyName: string;
+  createdAt: Date;
 }
 
 export default function MCPage() {
   const [search, setSearch] = useState("");
+  const [currentFaculty, setCurrentFaculty] = useState("")
   const [currentPrompt, setCurrentPrompt] = useState(
     "7a8e6020-4fce-4e11-aac8-62a41402b745"
   );
   const [currentPost, setCurrentPost] = useState("post1");
   const [isOpen, setIsOpen] = useState(false);
   const [isOpenPost, setIsOpenPost] = useState(false);
+  const [faculty, setFaculty] = useState<apiFaculties[]>();
   const [contributions, setContribution] = useState<apiContribution[]>();
   const [submissions, setSubmissions] = useState<apiSubmissions[]>();
 
-  const openAddPromptTable = () => {
+  const openAddPromptTable = (e: React.MouseEvent<HTMLButtonElement>) => {
+    const facultyID = e.currentTarget.id;
+    setCurrentFaculty(facultyID)
+    console.log(facultyID)
     setIsOpen(!isOpen);
   };
-  const numberSubmissions = submissions?.length;
+
   const handleClickFaculty = (e: React.MouseEvent<HTMLButtonElement>) => {
     const promptId = e.currentTarget.id;
     setCurrentPrompt(promptId);
@@ -70,6 +82,18 @@ export default function MCPage() {
     var lowerCase = e.target.value.toLowerCase();
     setSearch(lowerCase);
     console.log(lowerCase);
+  };
+
+  const getFaculty = async () => {
+    try {
+      const res = await fetch(`http://localhost:7000/api/faculties`, {
+        method: "GET",
+      });
+      const data = await res.json();
+      setFaculty(data);
+    } catch (error) {
+      alert("Fail to connect to server");
+    }
   };
 
   const getContribution = async () => {
@@ -105,6 +129,7 @@ export default function MCPage() {
   };
 
   useEffect(() => {
+    getFaculty();
     getContribution();
     getSubmissions();
   }, []);
@@ -114,7 +139,27 @@ export default function MCPage() {
       <MenuPromptContainer>
         <SearchBar event={handleSearch} content="Search find Prompt" />
         <Divider variant="middle" color="#BCBCBC" />
-        <div className="overflow-y-scroll h-[90%]">
+        {faculty &&
+            faculty.length > 0 &&
+            faculty
+              .filter((item) => {
+                return search.toLowerCase() === " "
+                  ? item
+                  : item.facultyName.toLowerCase().includes(search);
+              })
+              .map((item) => (
+                <Card
+                  key={item._id}
+                  title={item.facultyName}
+                  content={item.facultyName}
+                  id={item._id}
+                  event={openAddPromptTable}
+                />
+              ))}
+              
+        { isOpen == true && <div className="overflow-y-scroll h-[820px] absolute bg-white w-[400px] pt-5">
+        <SearchBar event={handleSearch} content="Search find Prompt" />
+        <Divider variant="middle" color="#BCBCBC" />
           {contributions &&
             contributions.length > 0 &&
             contributions
@@ -138,7 +183,7 @@ export default function MCPage() {
                   </ButtonPrompt>
                 </ButtonPromptContainer>
               ))}
-        </div>
+        </div>}
       </MenuPromptContainer>
       <CardPromptContainer>
         {contributions?.map((item) => (
@@ -154,10 +199,10 @@ export default function MCPage() {
             )}
           </div>
         ))}
-        <div className="overflow-y-scroll h-[700px]">
+        <div className="overflow-y-scroll h-[700px] w-[750px]">
           {submissions?.map((submission) => (
             <React.Fragment key={submission._id}>
-              {currentPrompt === `${submission.contributionID}` && (
+              {currentPrompt === `${submission.contributionID}` && currentFaculty === `${submission.facultyID}` && (
                 <PostCard
                   title={submission.description}
                   content={submission.description}
@@ -310,11 +355,6 @@ export const StudentCardTitle = ({
             </div>
           </CardInformationContainer>
         </div>
-        <PostNumberContainer className="text-center">
-          <BtnPromptTextStyle sx={{ minWidth: "100px", color: "white" }}>
-            {postNumber}
-          </BtnPromptTextStyle>
-        </PostNumberContainer>
       </StudentCardTitleContainer>
       <Divider variant="middle" color="#BCBCBC" />
     </div>
