@@ -50,19 +50,12 @@ export const displayReport = async (req: Request, res: Response) => {
                     totalSubmissions: { $sum: "$submissionCount" },
                     facultyData: { $push: "$$ROOT" }
                 }
-            },
-            {
-                $project: {
-                    _id: 0,
-                    total: { $toString: "$totalSubmissions" },
-                    facultyData: 1
-                }
             }
         ]);
 
         if (facultySubmissions.length > 0) {
             const data = facultySubmissions[0].facultyData;
-            data.unshift({ total: facultySubmissions[0].total });
+            
             return res.status(200).json(data);
         } else {
             return res.status(404).json({ message: "No data found for the specified contribution ID." });
