@@ -54,6 +54,8 @@ router.post("/faculty",   createFaculty);
 router.get("/faculties", displayFaculty);
 router.get("/faculty/:_id", displayByID);
 
+//Analysis
+router.get("/analysis/:contributionID", displayReport)
 
 //Status
 router.post("/status",  createStatus)
