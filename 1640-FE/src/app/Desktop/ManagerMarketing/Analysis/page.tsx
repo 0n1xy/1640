@@ -123,7 +123,7 @@ function Chart(props: any) {
       setAnalysis(data);
       console.log(fetchURL);
     } catch (error) {
-      alert("Fail to connect to server");
+      alert("Don't have any submission");
     }
   };
 

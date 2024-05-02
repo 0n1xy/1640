@@ -20,22 +20,35 @@ export const menus = [
   { role: "Student", name: "Home", href: "/home", icon: "/Icon/HomeIcon.png" },
   { role: "", name: "Prompts", href: "/Student", icon: "/Icon/Prompts.png" },
   {
-    role: "",
+    role: "Student",
     name: "Contribution",
     href: "/Student/contribution",
     icon: "/Icon/Contribution.png",
   },
+  { role: "Manager", name: "Home", href: "/home", icon: "/Icon/HomeIcon.png" },
+  {
+    role: "Manager",
+    name: "Faculties",
+    href: "/manager",
+    icon: "/Icon/IconFaculty.png",
+  },
+  {
+    role: "Manager",
+    name: "Analysis",
+    href: "/manager/analysis",
+    icon: "/Icon/Analysis.png",
+  },
 ];
-  const userValue = cookie.get("role");
-  const filteredMenus = menus.filter((item) => item.role === userValue);
+const userValue = cookie.get("role");
+const filteredMenus = menus.filter((item) => item.role === userValue);
 export default function Menu() {
   return (
     <Container>
       {filteredMenus.map((item, i) => (
-          <MenuBtn key={i} href={item.href}>
-            <MenuIcon src={item.icon} />
-            <TxtBtnStyle>{item.name}</TxtBtnStyle>
-          </MenuBtn>
+        <MenuBtn key={i} href={item.href}>
+          <MenuIcon src={item.icon} />
+          <TxtBtnStyle>{item.name}</TxtBtnStyle>
+        </MenuBtn>
       ))}
     </Container>
   );

@@ -44,6 +44,7 @@ interface apiSubmissions {
   createdAt: string;
   fileID: string;
   facultyID: string;
+  statusID: string;
 }
 
 interface apiFaculties {
@@ -54,7 +55,7 @@ interface apiFaculties {
 
 export default function MCPage() {
   const [search, setSearch] = useState("");
-  const [currentFaculty, setCurrentFaculty] = useState("")
+  const [currentFaculty, setCurrentFaculty] = useState("");
   const [currentPrompt, setCurrentPrompt] = useState(
     "7a8e6020-4fce-4e11-aac8-62a41402b745"
   );
@@ -67,8 +68,8 @@ export default function MCPage() {
 
   const openAddPromptTable = (e: React.MouseEvent<HTMLButtonElement>) => {
     const facultyID = e.currentTarget.id;
-    setCurrentFaculty(facultyID)
-    console.log(facultyID)
+    setCurrentFaculty(facultyID);
+    console.log(facultyID);
     setIsOpen(!isOpen);
   };
 
@@ -140,50 +141,52 @@ export default function MCPage() {
         <SearchBar event={handleSearch} content="Search find Prompt" />
         <Divider variant="middle" color="#BCBCBC" />
         {faculty &&
-            faculty.length > 0 &&
-            faculty
-              .filter((item) => {
-                return search.toLowerCase() === " "
-                  ? item
-                  : item.facultyName.toLowerCase().includes(search);
-              })
-              .map((item) => (
-                <Card
-                  key={item._id}
-                  title={item.facultyName}
-                  content={item.facultyName}
-                  id={item._id}
-                  event={openAddPromptTable}
-                />
-              ))}
-              
-        { isOpen == true && <div className="overflow-y-scroll h-[820px] absolute bg-white w-[400px] pt-5">
-        <SearchBar event={handleSearch} content="Search find Prompt" />
-        <Divider variant="middle" color="#BCBCBC" />
-          {contributions &&
-            contributions.length > 0 &&
-            contributions
-              .filter((item) => {
-                return search.toLowerCase() === ""
-                  ? item
-                  : item.contributionTitle.toLowerCase().includes(search);
-              })
-              .map((item) => (
-                <ButtonPromptContainer key={item.contributionTitle}>
-                  <ButtonPrompt onClick={handleClickFaculty} id={item._id}>
-                    <FolderOutlinedIcon />
-                    <BtnPromptTextStyle>
-                      {item.contributionTitle}
-                    </BtnPromptTextStyle>
-                    <PostNumberContainer>
-                      <BtnPromptTextStyle
-                        sx={{ minWidth: "50px" }}
-                      ></BtnPromptTextStyle>
-                    </PostNumberContainer>
-                  </ButtonPrompt>
-                </ButtonPromptContainer>
-              ))}
-        </div>}
+          faculty.length > 0 &&
+          faculty
+            .filter((item) => {
+              return search.toLowerCase() === " "
+                ? item
+                : item.facultyName.toLowerCase().includes(search);
+            })
+            .map((item) => (
+              <Card
+                key={item._id}
+                title={item.facultyName}
+                content={item.facultyName}
+                id={item._id}
+                event={openAddPromptTable}
+              />
+            ))}
+
+        {isOpen == true && (
+          <div className="overflow-y-scroll h-[820px] absolute bg-white w-[400px] pt-5">
+            <SearchBar event={handleSearch} content="Search find Prompt" />
+            <Divider variant="middle" color="#BCBCBC" />
+            {contributions &&
+              contributions.length > 0 &&
+              contributions
+                .filter((item) => {
+                  return search.toLowerCase() === ""
+                    ? item
+                    : item.contributionTitle.toLowerCase().includes(search);
+                })
+                .map((item) => (
+                  <ButtonPromptContainer key={item.contributionTitle}>
+                    <ButtonPrompt onClick={handleClickFaculty} id={item._id}>
+                      <FolderOutlinedIcon />
+                      <BtnPromptTextStyle>
+                        {item.contributionTitle}
+                      </BtnPromptTextStyle>
+                      <PostNumberContainer>
+                        <BtnPromptTextStyle
+                          sx={{ minWidth: "50px" }}
+                        ></BtnPromptTextStyle>
+                      </PostNumberContainer>
+                    </ButtonPrompt>
+                  </ButtonPromptContainer>
+                ))}
+          </div>
+        )}
       </MenuPromptContainer>
       <CardPromptContainer>
         {contributions?.map((item) => (
@@ -202,16 +205,19 @@ export default function MCPage() {
         <div className="overflow-y-scroll h-[700px] w-[750px]">
           {submissions?.map((submission) => (
             <React.Fragment key={submission._id}>
-              {currentPrompt === `${submission.contributionID}` && currentFaculty === `${submission.facultyID}` && (
-                <PostCard
-                  title={submission.description}
-                  content={submission.description}
-                  time={submission.createdAt}
-                  role={"User"}
-                  event={openPostDetail}
-                  postId={submission._id}
-                />
-              )}
+              {currentPrompt === `${submission.contributionID}` &&
+                currentFaculty === `${submission.facultyID}` &&
+                `${submission.statusID}` != "62755508-4288-4e5f-848d-eb69995c8b35" &&
+                 (
+                  <PostCard
+                    title={submission.description}
+                    content={submission.description}
+                    time={submission.createdAt}
+                    role={"User"}
+                    event={openPostDetail}
+                    postId={submission._id}
+                  />
+                )}
             </React.Fragment>
           ))}
         </div>
@@ -230,6 +236,7 @@ export default function MCPage() {
                     closePage={setIsOpenPost}
                     fileID={submission.fileID}
                     submissionID={submission._id}
+                    statusID={submission.statusID}
                   />
                 )}
               </div>
