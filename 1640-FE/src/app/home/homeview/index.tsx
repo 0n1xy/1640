@@ -11,6 +11,7 @@ interface submissionsApi {
   description: string;
   createdAt: string;
   contributionID: string;
+  statusID: string;
 }
 
 export default function SecondHomePage(props: any) {
@@ -55,7 +56,8 @@ export default function SecondHomePage(props: any) {
             <div className="flex flex-wrap justify-center">
               {submissions?.map((submission) => (
                 <div key={submission._id}>
-                  {props.contributionID === `${submission.contributionID}` && (
+                  {props.contributionID === `${submission.contributionID}`&& 
+                  `${submission.statusID}` === "2c142f13-ee10-4616-8c13-5297109fc0fc" && (
                     <div className="max-w-[700px]">
                        <PostCard
                       title={submission.description}

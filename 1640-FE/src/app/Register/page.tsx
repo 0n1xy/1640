@@ -105,12 +105,12 @@ export default function Login() {
               </MenuItem>
               <MenuItem value={"Admin"}>Admin</MenuItem>
               <MenuItem value={"Student"}>Student</MenuItem>
+              <MenuItem value={"Coordinator"}>Coordinator</MenuItem>
+              <MenuItem value={"Manager"}>Manager</MenuItem>
+              <MenuItem value={"Guest"}>Guest</MenuItem>
+              
             </Select>
           </div>
-          <ForgotPassword href="/">
-            {" "}
-            <span>Do you have an account?</span> Login now
-          </ForgotPassword>
           <SignUpBtn>
             <span>Register</span>
           </SignUpBtn>

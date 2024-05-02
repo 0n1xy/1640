@@ -8,23 +8,19 @@ export const menus = [
   {
     role: "Admin",
     name: "Faculties",
-    href: "/manager",
-    icon: "/Icon/IconFaculty.png",
+    href: "/Register",
+    icon: "/Icon/Register.png",
   },
-  {
-    role: "Admin",
-    name: "Analysis",
-    href: "/manager/analysis",
-    icon: "/Icon/Analysis.png",
-  },
+  
   { role: "Student", name: "Home", href: "/home", icon: "/Icon/HomeIcon.png" },
-  { role: "", name: "Prompts", href: "/Student", icon: "/Icon/Prompts.png" },
+  { role: "Student", name: "Prompts", href: "/Student", icon: "/Icon/Prompts.png" },
   {
     role: "Student",
     name: "Contribution",
     href: "/Student/contribution",
     icon: "/Icon/Contribution.png",
   },
+
   { role: "Manager", name: "Home", href: "/home", icon: "/Icon/HomeIcon.png" },
   {
     role: "Manager",
@@ -38,6 +34,8 @@ export const menus = [
     href: "/manager/analysis",
     icon: "/Icon/Analysis.png",
   },
+
+  { role: "Coordinator", name: "Home", href: "/home", icon: "/Icon/HomeIcon.png" },
 ];
 const userValue = cookie.get("role");
 const filteredMenus = menus.filter((item) => item.role === userValue);

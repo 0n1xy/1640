@@ -83,7 +83,6 @@ export default function Login() {
               onChange={(e) => setPassword(e.target.value)}
             />
           </div>
-          <ForgotPassword href="/Register"> <span>Do you have an account? </span>Register now</ForgotPassword>
           <SignUpBtn>
             <span>Sign In</span>
           </SignUpBtn>

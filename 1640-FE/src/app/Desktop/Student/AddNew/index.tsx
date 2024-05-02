@@ -124,7 +124,7 @@ export default function AddNew(props: any) {
 
   return (
 
-    <PromptBigContainer className="bg-white m-0">
+    <PromptBigContainer className="absolute bg-white m-0">
           <MenuPromptContainer>
             <PromptPostTitle />
             <Divider variant="middle" color="#BCBCBC" />

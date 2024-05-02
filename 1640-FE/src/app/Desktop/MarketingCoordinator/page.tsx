@@ -27,6 +27,7 @@ import MC1Page from "./MC1/page";
 import CalendarTodayOutlinedIcon from "@mui/icons-material/CalendarTodayOutlined";
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
 import FolderOutlinedIcon from "@mui/icons-material/FolderOutlined";
+import cookie from "js-cookie";
 
 interface apiContribution {
   _id: string;
@@ -59,12 +60,15 @@ export default function MCPage() {
   const [currentPrompt, setCurrentPrompt] = useState(
     "7a8e6020-4fce-4e11-aac8-62a41402b745"
   );
+  
   const [currentPost, setCurrentPost] = useState("post1");
   const [isOpen, setIsOpen] = useState(false);
   const [isOpenPost, setIsOpenPost] = useState(false);
   const [faculty, setFaculty] = useState<apiFaculties[]>();
   const [contributions, setContribution] = useState<apiContribution[]>();
   const [submissions, setSubmissions] = useState<apiSubmissions[]>();
+
+  const facultyID = cookie.get("facultyID");
 
   const openAddPromptTable = (e: React.MouseEvent<HTMLButtonElement>) => {
     const facultyID = e.currentTarget.id;
@@ -149,13 +153,15 @@ export default function MCPage() {
                 : item.facultyName.toLowerCase().includes(search);
             })
             .map((item) => (
-              <Card
+              <div key={item._id}>
+                {facultyID === `${item._id}` && <Card
                 key={item._id}
                 title={item.facultyName}
                 content={item.facultyName}
                 id={item._id}
                 event={openAddPromptTable}
-              />
+              />}
+              </div>
             ))}
 
         {isOpen == true && (

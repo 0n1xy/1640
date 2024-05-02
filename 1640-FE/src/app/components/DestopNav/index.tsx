@@ -113,7 +113,7 @@ const Navbar = () => {
         <div className="flex flex-row gap-5 m-4">
           <a href="/Student">Student</a>
           <a href="/manager">Manager</a>
-          <a href="/mc">MC</a>
+          <a href="/mc">Coordinator</a>
           <a href="/admin">Admin</a>
           <a href="/" onClick={logOut}>
             Log out
