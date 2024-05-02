@@ -114,12 +114,11 @@ const Navbar = () => {
           <a href="/Student">Student</a>
           <a href="/manager">Manager</a>
           <a href="/manager/mc">MC</a>
-          <button onClick={openAddPromptTable}>Admin</button>
+          <a href="/manager/admin">Admin</a>
           <a href="/" onClick={logOut}>
             Log out
           </a>
         </div>
-        {isOpen == true && <AdminPage />}
         <button>
           <Avatar />
         </button>

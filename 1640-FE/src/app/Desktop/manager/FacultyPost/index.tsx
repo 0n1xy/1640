@@ -10,7 +10,7 @@ interface contributionApi {
   contributionStatus: boolean;
   contributionStartDay: Date;
   contributionCloseDay: Date;
-  submissionID: Date;
+  submissionID: string;
 }
 
 export default function FacultyPost() {

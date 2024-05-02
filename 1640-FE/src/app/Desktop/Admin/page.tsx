@@ -66,8 +66,6 @@ export default function AdminPage(props: any) {
   };
 
   return (
-    <div>
-      {isOpen == false && (
         <TableContainer>
           <FormContainer>
             <FormContentContainer>
@@ -76,7 +74,7 @@ export default function AdminPage(props: any) {
                 className="flex flex-row justify-between "
               >
                 <ArrowBackIcon />
-                <TableTitle>Create a template</TableTitle>
+                <TableTitle>Create a Contribution</TableTitle>
                 <CloseIcon />
               </button>
               <div className="max-h-[450px] text-align: center">
@@ -88,9 +86,10 @@ export default function AdminPage(props: any) {
                   defaultValue={""}
                   type="text"
                 />
-                <FormControl sx={{ marginLeft:"20px", minWidth: "90%" }}>
-                  <InputLabel htmlFor="grouped-select">Status</InputLabel>
-                  <Select onChange={handleSelect} defaultValue="" id="grouped-select" label="Grouping">
+                <AddStudentTitleStyle className="ml-[20px]">Status</AddStudentTitleStyle>
+                <FormControl sx={{ marginLeft:"20px", minWidth: "95%" }}>
+                  
+                  <Select onChange={handleSelect} >
                     <MenuItem value="Open">Open</MenuItem>
                     <MenuItem value="Close">Close</MenuItem>
                   </Select>
@@ -119,46 +118,21 @@ export default function AdminPage(props: any) {
             </FormContentContainer>
           </FormContainer>
         </TableContainer>
-      )}
-    </div>
   );
 }
 
 const TableContainer = styled("div")`
-  z-index: 3;
-  display: flex;
-  position: fixed;
-  width: 50%;
-  margin: auto;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  @media (max-width: 500px) {
-    display: flex;
-    position: fixed;
-    width: 100%;
-    margin: auto;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-  }
+  margin: 20px 80px;
+  width: 60%; 
 `;
 
 const FormContainer = styled("div")`
   border-radius: 30px;
-  width: 60%;
-  height: 95%;
+  width: 100%;
+  height: 100%;
   background: white;
   margin: auto;
   box-shadow: 0px 8px 15px 0px rgba(25, 33, 61, 0.1);
-  @media (max-width: 500px) {
-    border-radius: 30px;
-    width: 80%;
-    height: 95%;
-    background: white;
-    margin: auto;
-    box-shadow: 0px 8px 15px 0px rgba(25, 33, 61, 0.1);
-  }
 `;
 
 const FormContentContainer = styled("div")`

@@ -30,6 +30,7 @@ import CloseIcon from "@mui/icons-material/BackspaceTwoTone";
 import cookie from "js-cookie";
 import axios from "axios";
 import { axiosPublic } from "@/app/lib/axios";
+import Menu from "@/app/components/Menu";
 
 export default function AddNew(props: any) {
   const facultyID = cookie.get("facultyID");
@@ -122,9 +123,8 @@ export default function AddNew(props: any) {
   }
 
   return (
-    <PromptBigContainer className="absolute bg-white m-0">
-      {closeAddNew == false && (
-        <div className="flex flex-row w-[100%]">
+
+    <PromptBigContainer className="bg-white m-0">
           <MenuPromptContainer>
             <PromptPostTitle />
             <Divider variant="middle" color="#BCBCBC" />
@@ -223,9 +223,8 @@ export default function AddNew(props: any) {
               </div>
             </form>
           </CardPromptContainer>
-        </div>
-      )}
     </PromptBigContainer>
+    
   );
 }
 
