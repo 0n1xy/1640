@@ -114,7 +114,7 @@ const Navbar = () => {
           <a href="/Student">Student</a>
           <a href="/manager">Manager</a>
           <a href="/manager/mc">MC</a>
-          <a href="/manager/admin">Admin</a>
+          <a href="/admin">Admin</a>
           <a href="/" onClick={logOut}>
             Log out
           </a>
