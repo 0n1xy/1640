@@ -9,7 +9,7 @@ import { storage } from "../config/database/firebase";
 import statusModel from "../models/statusModel";
 import facultyModel from "../models/facultyModel";
 import { emailNotification } from "../services/notificationServices";
-import { mailOption, transporter } from "../config/service/mailService";
+import { mailOptionToCoordinator, mailOptionToManager, transporter } from "../config/service/mailService";
 import JSZip, { file } from "jszip";
 
 export const createSubmission = async (req: Request, res: Response): Promise<Response> => {
@@ -92,7 +92,7 @@ export const createSubmission = async (req: Request, res: Response): Promise<Res
             fileID: file._id,
             userID,
         });
-        await emailNotification(transporter, mailOption)
+        await emailNotification(transporter, mailOptionToCoordinator)
         await submission.save();
 
         return res.status(201).json("Submission created");
@@ -136,7 +136,7 @@ export const updateSubmissionStatus = async (req: Request, res: Response) => {
             const statusIDUpdate = await statusModel.findOne({ statusName: statusInput })
             if (statusInput == "Accept") {
                 await submissionModel.findByIdAndUpdate(req.params, { statusID: statusIDUpdate?._id })
-                await emailNotification(transporter, mailOption)
+                await emailNotification(transporter, mailOptionToManager)
                 return res.status(201).json("Submission updated");
             } else {
                 await submissionModel.findByIdAndUpdate(req.params, { statusID: statusIDUpdate?._id })

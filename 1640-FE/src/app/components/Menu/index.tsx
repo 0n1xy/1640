@@ -7,7 +7,7 @@ export const menus = [
   { role: "Admin", name: "Home", href: "/home", icon: "/Icon/HomeIcon.png" },
   {
     role: "Admin",
-    name: "Faculties",
+    name: "Register",
     href: "/Register",
     icon: "/Icon/Register.png",
   },

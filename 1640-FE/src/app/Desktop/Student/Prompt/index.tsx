@@ -157,7 +157,7 @@ export default function StudentPrompt() {
 export const PromptPostTitle = () => {
   return (
     <div>
-      <PostTitle title="Information of Technology" content="Description" />
+      <PostTitle title="" content="" />
     </div>
   );
 };

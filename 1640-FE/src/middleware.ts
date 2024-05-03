@@ -8,47 +8,47 @@ export function middleware(request: NextRequest) {
     const role = cookies().get("role");
 
     // // Check if access_token is not present
-    // if (access_token === null) {
-    //     // Redirect to '/' only if not already on that path
-    //     if (path !== "/") {
-    //         return NextResponse.redirect(new URL('/', request.nextUrl));
-    //     } else {
-    //         return NextResponse.next(); // If already at '/', proceed
-    //     }
-    // }
+    if (access_token === null) {
+        // Redirect to '/' only if not already on that path
+        if (path !== "/") {
+            return NextResponse.redirect(new URL('/', request.nextUrl));
+        } else {
+            return NextResponse.next(); // If already at '/', proceed
+        }
+    }
 
-    // // Role-based access control
-    // if (path.startsWith("/manager") && role?.value !== 'Manager') {
-    //     if(role?.value != null) {
-    //         return NextResponse.redirect(new URL('/home', request.nextUrl));
-    //     } else {
-    //         return NextResponse.redirect(new URL('/', request.nextUrl));
-    //     }
-    // } else if (path.startsWith("/Register") && role?.value !== 'Admin') {
-    //     if(role?.value != null) {
-    //         return NextResponse.redirect(new URL('/home', request.nextUrl));
-    //     } else {
-    //         return NextResponse.redirect(new URL('/', request.nextUrl));
-    //     }
-    // } else if(path.startsWith("/Student") && role?.value !== 'Student') {
-    //     if(role?.value != null) {
-    //         return NextResponse.redirect(new URL('/home', request.nextUrl));
-    //     } else {
-    //         return NextResponse.redirect(new URL('/', request.nextUrl));
-    //     }
-    // } else if(path.startsWith("/admin") && role?.value !== 'Admin') {
-    //     if(role?.value != null) {
-    //         return NextResponse.redirect(new URL('/home', request.nextUrl));
-    //     } else {
-    //         return NextResponse.redirect(new URL('/', request.nextUrl));
-    //     }
-    // } else if(path.startsWith("/mc") && role?.value !== 'CooCoordinator') {
-    //     if(role?.value != null) {
-    //         return NextResponse.redirect(new URL('/home', request.nextUrl));
-    //     } else {
-    //         return NextResponse.redirect(new URL('/', request.nextUrl));
-    //     }
-    // }
+    // Role-based access control
+    if (path.startsWith("/manager") && role?.value !== 'Manager') {
+        if(role?.value != null) {
+            return NextResponse.redirect(new URL('/home', request.nextUrl));
+        } else {
+            return NextResponse.redirect(new URL('/', request.nextUrl));
+        }
+    } else if (path.startsWith("/Register") && role?.value !== 'Admin') {
+        if(role?.value != null) {
+            return NextResponse.redirect(new URL('/home', request.nextUrl));
+        } else {
+            return NextResponse.redirect(new URL('/', request.nextUrl));
+        }
+    } else if(path.startsWith("/Student") && role?.value !== 'Student') {
+        if(role?.value != null) {
+            return NextResponse.redirect(new URL('/home', request.nextUrl));
+        } else {
+            return NextResponse.redirect(new URL('/', request.nextUrl));
+        }
+    } else if(path.startsWith("/admin") && role?.value !== 'Admin') {
+        if(role?.value != null) {
+            return NextResponse.redirect(new URL('/home', request.nextUrl));
+        } else {
+            return NextResponse.redirect(new URL('/', request.nextUrl));
+        }
+    } else if(path.startsWith("/mc") && role?.value !== 'Coordinator') {
+        if(role?.value != null) {
+            return NextResponse.redirect(new URL('/home', request.nextUrl));
+        } else {
+            return NextResponse.redirect(new URL('/', request.nextUrl));
+        }
+    }
 
     // Proceed if access_token is present and role is allowed
     return NextResponse.next();

@@ -15,6 +15,7 @@ export default function Login() {
   const [password, setPassword] = useState("");
   const [username, setUsername] = useState("");
   const [roleName, setRoleName] = useState("Admin");
+  const [facultyName, setFacultyName] = useState("");
 
   const handleSubmit = async (e : any) => {
     e.preventDefault();
@@ -28,6 +29,7 @@ export default function Login() {
             password: password,
             roleName: roleName,       
             username: username,
+            facultyName: facultyName,
           })
         );
       window.location.href = "/";
@@ -42,6 +44,10 @@ export default function Login() {
 
   const handleChange = (e: any) => {
     setRoleName(e.target.value)
+}
+
+const handleChange1 = (e: any) => {
+  setFacultyName(e.target.value)
 }
 
   return (
@@ -108,6 +114,24 @@ export default function Login() {
               <MenuItem value={"Coordinator"}>Coordinator</MenuItem>
               <MenuItem value={"Manager"}>Manager</MenuItem>
               <MenuItem value={"Guest"}>Guest</MenuItem>
+              
+            </Select>
+            <ContentStyle>Faculty</ContentStyle>
+            <Select
+              value={facultyName}
+              onChange={handleChange1}
+              displayEmpty
+              inputProps={{ "aria-label": "Without label" }}
+              sx={{ background: "white", width: "100%" }}
+            >
+              <MenuItem value="">
+                <em>None</em>
+              </MenuItem>
+              <MenuItem value={"Business"}>Business</MenuItem>
+              <MenuItem value={"IT"}>IT</MenuItem>
+              <MenuItem value={"Design Graphic"}>Design Graphic</MenuItem>
+              <MenuItem value={"Logistics"}>Logistics</MenuItem>
+              <MenuItem value={"Fashion"}>Fashion</MenuItem>
               
             </Select>
           </div>

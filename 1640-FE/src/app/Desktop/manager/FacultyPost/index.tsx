@@ -36,8 +36,8 @@ export default function FacultyPost() {
     return (
       <BigContainer>
       <PostTitle 
-      title='Information of Technology'
-      content='Description'
+      title=''
+      content=''
       />
       <Divider variant="middle" color="#BCBCBC"/>
       {contributions && contributions.length > 0 && contributions.map((contribution) => (
